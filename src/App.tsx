@@ -36,11 +36,11 @@ export function getReorderedGoods(
   const visibleGoods = [...goods];
 
   // Sort and reverse goods if needed
-  if (sortType === 1) {
+  if (sortType === SortType.ALPHABET) {
     visibleGoods.sort((a, b) => {
       return a.localeCompare(b);
     });
-  } else if (sortType === 2) {
+  } else if (sortType === SortType.LENGTH) {
     visibleGoods.sort((a, b) => {
       return a.length - b.length;
     });
@@ -93,7 +93,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${currentSort !== SortType.ALPHABET && 'is-light'}`}
+          className={`button is-info ${currentSort !== SortType.ALPHABET ? 'is-light' : ''}`}
           onClick={sortByAlphabet}
         >
           Sort alphabetically
@@ -101,7 +101,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${currentSort !== SortType.LENGTH && 'is-light'}`}
+          className={`button is-success ${currentSort !== SortType.LENGTH ? 'is-light' : ''}`}
           onClick={sortByLength}
         >
           Sort by length
@@ -109,7 +109,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${reverse === false && 'is-light'}`}
+          className={`button is-warning ${reverse === false ? 'is-light' : ''}`}
           onClick={sortReversed}
         >
           Reverse
@@ -125,17 +125,14 @@ export const App: React.FC = () => {
           </button>
         )}
       </div>
-
       <ul>
-        <ul>
-          {reorderedGoods.map(item => {
-            return (
-              <li data-cy="Good" key={item}>
-                {item}
-              </li>
-            );
-          })}
-        </ul>
+        {reorderedGoods.map(item => {
+          return (
+            <li data-cy="Good" key={item}>
+              {item}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
